@@ -1,0 +1,26 @@
+{
+  "name": "patdmaped",
+  "version": "0.1.0",
+  "author": "Rob Flynn <rob@thingerly.com>",
+  "private": true,
+  "config": {
+    "port": "3030"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "browser-sync": "^2.24.4",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-if": "^2.0.2",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^5.0.0",
+    "webpack": "^4.12.0"
+  },
+  "dependencies": {}
+}
