@@ -6,7 +6,6 @@ const $ = (query) => {
 	return document.querySelector(query);
 }
 
-
 class Component {		
 	constructor() {
 		this.x = 100;

@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "author": "Rob Flynn <rob@thingerly.com>",
   "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
   "config": {
     "port": "3030"
   },
@@ -11,6 +15,8 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.24.4",
+    "electron": "^2.0.4",
+    "electron-reload": "^1.2.5",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
