@@ -61,7 +61,7 @@ class Room extends Component {
 
 	render() {
 		var c = super.render();
-		console.log("WHAT");
+
 		let html = `
 			<div class="title">${this.properties.name}</div>
 			<div class="body">${this.properties.description}</div>
@@ -251,8 +251,8 @@ class Editor extends EventCannon {
 			var component = this.currentComponent;
 			var editor = $("#editor");
 
-			var x = evt.pageX - editor.offsetLeft - this.clickOffset.x ; 
-			var y = evt.pageY - editor.offsetTop - this.clickOffset.y; 			
+			var x = evt.pageX - editor.offsetLeft - this.clickOffset.x + editor.scrollLeft; 
+			var y = evt.pageY - editor.offsetTop - this.clickOffset.y + editor.scrollTop; 			
 
 			component.x = x;
 			component.y = y;
@@ -273,8 +273,8 @@ class Editor extends EventCannon {
 		var c = this.element;
 
 		var sw = document.createElement("div");
-		sw.classList.add("scrollWindow");
-		this.scrollWindow = sw;
+		sw.classList.add("contentPane");
+		this.contentPane = sw;
 
 		c.addEventListener('mousemove', (evt) => this.handleMouseMove(evt));			
 
@@ -284,7 +284,7 @@ class Editor extends EventCannon {
 			rc.addEventListener('mousedown', (evt) => this.componentMouseDown(evt, room));
 			rc.addEventListener('mouseup', (evt) => this.componentMouseUp(evt, room));			
 
-			this.scrollWindow.appendChild(rc);
+			this.contentPane.appendChild(rc);
 		});
 
 		c.appendChild(sw);

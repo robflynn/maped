@@ -9,6 +9,7 @@ $panelBorder: solid 1px rgba(0, 0, 0, 0.1);
 
 html, body {
     height: 100%;
+    max-width: 100%;
 }
 
 #app {
@@ -27,13 +28,19 @@ html, body {
         height: 100%;
 
         .editor {        
-            padding: $padding;
             flex-grow: 1;
             background-color: $paneBackgroundColor;
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAABkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGSH0mEbAAAACnRSTlMAzDPDPPPYnGMw2CgMzQAAAChJREFUKM9jgAPOAgZMwGIwKkhXQSUY0BCCMxkEYUAsEM4cjI4fwYIAf2QMNbUsZjcAAAAASUVORK5CYII=);
-            background-position: center center;
             user-select: none;
             position: relative;
+            overflow: auto;
+
+            .contentPane {
+                padding: $padding;                                
+                width:  10000px;
+                height: 10000px;
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAABkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGSH0mEbAAAACnRSTlMAzDPDPPPYnGMw2CgMzQAAAChJREFUKM9jgAPOAgZMwGIwKkhXQSUY0BCCMxkEYUAsEM4cjI4fwYIAf2QMNbUsZjcAAAAASUVORK5CYII=);
+                background-position: center center; 
+            }
         }
 
         .propertiesPane {        
@@ -41,6 +48,7 @@ html, body {
 
             background-color: $paneBackgroundColor;
             width: 250px;
+            min-width: 250px;
             font-family: helvetica;
             border-left: $panelBorder;
             border-left: 1px inset;
