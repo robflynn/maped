@@ -32,6 +32,7 @@ html, body {
             background-color: $paneBackgroundColor;
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAABkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGSH0mEbAAAACnRSTlMAzDPDPPPYnGMw2CgMzQAAAChJREFUKM9jgAPOAgZMwGIwKkhXQSUY0BCCMxkEYUAsEM4cjI4fwYIAf2QMNbUsZjcAAAAASUVORK5CYII=);
             background-position: center center;
+            user-select: none;
         }
 
         .propertiesPane {        
@@ -57,7 +58,9 @@ html, body {
                 $tablePadding: $padding;
                 border-spacing: 0px;
                 background: #eee;
-                font-size: 0.9em;        
+                font-size: 0.9em;      
+                width: 100%;
+                height: 100%;
 
                 th {
                     font-weight: normal;
@@ -116,15 +119,24 @@ html, body {
 
     .component {        
         background: white;
-        border: solid 1px #000;
+        border: solid 3px #000;
         display: inline-block;
         width: 200px;
         height: 200px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        transition:
+            border-color $transitionSpeed ease;
+
+        &.selected {
+            border-color: #ff0066;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);            
+        }
 
         .title {
             text-align: center;
-            background: #444;
-            color: #eee;
+            color: #222;
+            border-bottom: $panelBorder;
             padding: 5px;
         }
 
