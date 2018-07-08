@@ -66,14 +66,32 @@ class Room extends Component {
 	render() {
 		var c = super.render();
 
+		this.draw();
+
+		return c;
+	}
+
+	draw() {
+		var c = this.element;
+
 		let html = `
 			<div class="title">${this.properties.name}</div>
 			<div class="body">${this.properties.description}</div>
 		`;
 
-		c.innerHTML = html;
+		c.innerHTML = html;				
 
-		return c;
+		return c;		
+	}
+
+	update() {
+		super.update();
+		
+		const title = $(`#${this.component_id} .title`);
+		const body = $(`#${this.component_id} .body`);
+
+		if (title) { title.innerHTML = this.properties["name"] }
+		if (body) { body.innerHTML = this.properties["description"] }
 	}
 }
 
@@ -149,8 +167,40 @@ class PropertyPane {
 		this.update();
 	}
 
+	draw() {
+		this.element.innerHTML = this.renderHTML();		
+
+		const properties = $$("#propertiesTable .propertyValue");
+
+		properties.forEach(property => {
+			property.addEventListener('click', (evt) => {
+				const field = property;				
+				const name = property.getAttribute("data-property-name");
+				const value = this.currentComponent.properties[name];
+
+				const edit = document.createElement("input") 
+				edit.type = "text";
+				edit.value = value;
+
+				edit.addEventListener('blur', evt => {
+					const newValue = evt.target.value;
+
+					field.innerHTML = newValue;
+
+					this.currentComponent.properties[name] = newValue;
+					this.currentComponent.update();
+				})
+
+				field.innerHTML = "";
+				field.appendChild(edit);
+
+				edit.focus();
+			});
+		});
+	}
+
 	update() {
-		this.element.innerHTML = this.renderHTML();
+		this.draw();
 	}
 
 	render() {
@@ -158,7 +208,9 @@ class PropertyPane {
 		c.id = this.id;
 		c.classList.add("propertiesPane");
 
-		c.innerHTML = this.renderHTML();
+		this.element = c;
+
+		this.draw();
 
 		return c;
 	}
@@ -198,23 +250,15 @@ class PropertyPane {
 		if (component) {
 			for (var key in component.properties) {
 				html += `
-					<tr>
-						<td>${key}</td>
-						<td>${component.properties[key]}</td>
+					<tr class="property">
+						<td class="propertyKey">${key}</td>
+						<td class="propertyValue" data-property-name="${key}">${component.properties[key]}</td>
 					</tr>
 				`;
 			}
 		}
 
 		return html;
-	}
-
-	update() {
-		var c = $(`#${this.id}`);
-
-		if (c) {
-			c.innerHTML = this.renderHTML();
-		}
 	}
 }
 
