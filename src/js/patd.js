@@ -47,6 +47,10 @@ class Component {
 	render() {		
 		return this.element;
 	}
+
+	toJSON() {
+		return this.properties;
+	}
 }
 
 class Room extends Component {	
@@ -79,7 +83,8 @@ const EditorEvent = {
 }
 
 const ToolbarEvent = {
-	CREATE_ROOM: "create_room"
+	CREATE_ROOM: "create_room",
+	DUMP_SOURCE: "dump"
 }
 
 class EventCannon {
@@ -103,6 +108,10 @@ class Toolbar extends EventCannon {
 
 		this.addButton("Room", () => {
 			this.fireEvent(ToolbarEvent.CREATE_ROOM, {});
+		});
+
+		this.addButton("Dump", () => {
+			this.fireEvent(ToolbarEvent.DUMP_SOURCE, {});
 		});
 	}
 
@@ -357,6 +366,24 @@ class MapEdApp {
 		if (event == ToolbarEvent.CREATE_ROOM) {
 			this.roomButtonClicked();
 		}
+
+		if (event == ToolbarEvent.DUMP_SOURCE) {
+			console.log(this.getJSON());
+		}
+	}
+
+	getJSON() {
+		var data = {
+			rooms: []
+		};
+
+		for (var i in this.editor.rooms) {
+			const room = this.editor.rooms[i];
+
+			data.rooms.push(room.toJSON());
+		}
+
+		return data;
 	}
 
 	handleEditorEvent(event, data) {

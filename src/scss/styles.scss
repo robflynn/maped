@@ -97,8 +97,9 @@ html, body {
             }
         }
 
-        .toolbar {                
-            padding: $padding * 2;;            
+        .toolbar {            
+            padding: $padding;
+            padding-top: 30px;    
             min-width: $toolbarWidth;
             background: $toolbarBackgroundColor;
             border-left: $panelBorder;
@@ -118,6 +119,9 @@ html, body {
                 border: solid 2px lighten($toolbarBackgroundColor, 40%);
                 font-weight: bold;
                 font-size: 0.9em;
+                text-align: center;
+
+                margin-bottom: 10px;
 
                 transition:
                     all $transitionSpeed ease;         
