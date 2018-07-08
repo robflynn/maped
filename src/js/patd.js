@@ -6,10 +6,11 @@ const $ = (query) => {
 	return document.querySelector(query);
 }
 
+
 class Component {		
 	constructor() {
-		this.x = 10;
-		this.y = 10;
+		this.x = 100;
+		this.y = 100;
 
 		this.properties = [];
 
@@ -28,9 +29,19 @@ class Component {
 		c.classList.add('room');				
 		c.classList.add('component');
 
+		c.style.left = this.x + "px";
+		c.style.top = this.y + "px";
+
 		this.properties["id"] = this.component_id;
 
 		this.element = c;
+	}	
+
+	update() {
+		var c = this.element;
+
+		c.style.left = this.x + "px";
+		c.style.top = this.y + "px";		
 	}
 
 	render() {		
@@ -198,30 +209,55 @@ class PropertyPane {
 	}
 }
 
-class Editor {
-	constructor() {
-		// The editor can have many rooms
-		this.rooms = [];
 
-		this.currentComponent = null;
-		this.listener = null;
-		this.rendered = false;
+class Editor extends EventCannon {
+	constructor() {
+		super();
 
 		var c = document.createElement("div");
 		c.id = "editor";
 		c.classList.add('editor');
 
+		// The editor can have many rooms
+		this.rooms = [];
+
+		this.currentComponent = null;
+		this.rendered = false;
+		this.dragging = false;
+		this.clickOffset = {
+			x: 0,
+			y: 0
+		};
+
 		this.element = c;
-
 	}
 
-	componentSelected(evt, component) {		
+	componentMouseDown(evt, component) {
 		this.selectComponent(component);
+
+		this.dragging = true;
+		this.clickOffset = {
+			x: evt.layerX,
+			y: evt.layerY
+		};
 	}
 
-	fireEvent(eventType, data) {
-		if (this.listener) {
-			this.listener(eventType, data);
+	componentMouseUp(evt, component) {
+		this.dragging = false;
+	}
+
+	handleMouseMove(evt) {
+		if (this.dragging) {
+			var component = this.currentComponent;
+			var editor = $("#editor");
+
+			var x = evt.pageX - editor.offsetLeft - this.clickOffset.x ; 
+			var y = evt.pageY - editor.offsetTop - this.clickOffset.y; 			
+
+			component.x = x;
+			component.y = y;
+
+			component.update();
 		}
 	}
 
@@ -236,13 +272,22 @@ class Editor {
 	draw() {
 		var c = this.element;
 
+		var sw = document.createElement("div");
+		sw.classList.add("scrollWindow");
+		this.scrollWindow = sw;
+
+		c.addEventListener('mousemove', (evt) => this.handleMouseMove(evt));			
+
 		this.rooms.forEach(room => {
-			const roomComponent = room.render();
+			const rc = room.render();
 
-			roomComponent.addEventListener('click', (evt) => this.componentSelected(evt, room));
+			rc.addEventListener('mousedown', (evt) => this.componentMouseDown(evt, room));
+			rc.addEventListener('mouseup', (evt) => this.componentMouseUp(evt, room));			
 
-			c.appendChild(roomComponent);
+			this.scrollWindow.appendChild(rc);
 		});
+
+		c.appendChild(sw);
 	}
 
 	update() {

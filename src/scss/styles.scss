@@ -33,6 +33,7 @@ html, body {
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAABkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGSH0mEbAAAACnRSTlMAzDPDPPPYnGMw2CgMzQAAAChJREFUKM9jgAPOAgZMwGIwKkhXQSUY0BCCMxkEYUAsEM4cjI4fwYIAf2QMNbUsZjcAAAAASUVORK5CYII=);
             background-position: center center;
             user-select: none;
+            position: relative;
         }
 
         .propertiesPane {        
@@ -130,6 +131,7 @@ html, body {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
         cursor: pointer;
+        position: absolute;
 
         transition:
             border-color $transitionSpeed ease;
@@ -137,6 +139,7 @@ html, body {
         &.selected {
             border-color: #ff0066;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);            
+            z-index: 5;
         }
 
         .title {
