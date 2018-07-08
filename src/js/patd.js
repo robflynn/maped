@@ -59,6 +59,8 @@ class Room extends Component {
 
 		this.properties["name"] = "Unknown Room"
 		this.properties["description"] = "This room has no description."
+		this.properties["exits"] = []
+		this.properties["exits"]["north"] = "boo"
 
 		console.log(this.properties);
 	}
@@ -86,7 +88,7 @@ class Room extends Component {
 
 	update() {
 		super.update();
-		
+
 		const title = $(`#${this.component_id} .title`);
 		const body = $(`#${this.component_id} .body`);
 
@@ -233,7 +235,7 @@ class PropertyPane {
 					</tr>
 				</thead>
 				<tbody>
-					${this.propertiesHTML()}
+					${this.renderProperties()}
 				</tbody>
 			</table>
 		</aside>
@@ -242,17 +244,32 @@ class PropertyPane {
 		return html;		
 	}
 
-	propertiesHTML() {
+	renderProperties() {
+		if (this.currentComponent) {
+			return this.propertiesHTML(this.currentComponent.properties);
+		}
+
+		return "";
+	}
+
+	propertiesHTML(properties) {
 		var html = "";
 
-		var component = this.currentComponent;		
+		for (var key in properties) {
 
-		if (component) {
-			for (var key in component.properties) {
+			if (Array.isArray(properties[key])) {
+				html += `
+					<th colspan="2">
+						${key}
+					</th>
+
+					${this.propertiesHTML(properties[key])}
+				`;
+			} else {
 				html += `
 					<tr class="property">
 						<td class="propertyKey">${key}</td>
-						<td class="propertyValue" data-property-name="${key}">${component.properties[key]}</td>
+						<td class="propertyValue" data-property-name="${key}">${properties[key]}</td>
 					</tr>
 				`;
 			}
