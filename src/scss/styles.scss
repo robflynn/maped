@@ -29,7 +29,9 @@ html, body {
         .editor {        
             padding: $padding;
             flex-grow: 1;
-            background-color: $paneBackgroundColor;            
+            background-color: $paneBackgroundColor;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAABkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGSH0mEbAAAACnRSTlMAzDPDPPPYnGMw2CgMzQAAAChJREFUKM9jgAPOAgZMwGIwKkhXQSUY0BCCMxkEYUAsEM4cjI4fwYIAf2QMNbUsZjcAAAAASUVORK5CYII=);
+            background-position: center center;
         }
 
         .propertiesPane {        
@@ -109,6 +111,25 @@ html, body {
                     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);                    
                 }
             }
+        }
+    }
+
+    .component {        
+        background: white;
+        border: solid 1px #000;
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+
+        .title {
+            text-align: center;
+            background: #444;
+            color: #eee;
+            padding: 5px;
+        }
+
+        .body {
+            padding: 5px;
         }
     }
 }
