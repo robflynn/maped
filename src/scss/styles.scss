@@ -89,16 +89,18 @@ html, body {
         }
 
         .toolbar {                
-            padding: $padding;            
-            width: $toolbarWidth;
+            padding: $padding * 2;;            
+            min-width: $toolbarWidth;
             background: $toolbarBackgroundColor;
             border-left: $panelBorder;
 
             button {        
+                $buttonSize: 65px;
+
                 cursor: pointer;
 
-                width: $toolbarWidth - $padding * 2;
-                height: $toolbarWidth - $padding * 2;
+                width: $buttonSize;
+                height: $buttonSize;
 
                 background: #fff;
                 color: $toolbarBackgroundColor;

@@ -28,6 +28,8 @@ class Component {
 		c.classList.add('room');				
 		c.classList.add('component');
 
+		this.properties["id"] = this.component_id;
+
 		this.element = c;
 	}
 
@@ -42,11 +44,13 @@ class Room extends Component {
 
 		this.properties["name"] = "Unknown Room"
 		this.properties["description"] = "This room has no description."
+
+		console.log(this.properties);
 	}
 
 	render() {
 		var c = super.render();
-
+		console.log("WHAT");
 		let html = `
 			<div class="title">${this.properties.name}</div>
 			<div class="body">${this.properties.description}</div>
@@ -63,12 +67,32 @@ const EditorEvent = {
 	COMPONENT_SELECTED: "select_component"
 }
 
-class Toolbar {
-	constructor() {
-		this.id = "toolbar";
-		this.buttons = [];		
+const ToolbarEvent = {
+	CREATE_ROOM: "create_room"
+}
 
-		this.addButton("Room", () => {});
+class EventCannon {
+	constructor() {
+		this.listener = null;
+	}
+
+	fireEvent(event, data) {
+		if (this.listener) {
+			this.listener(event, data);
+		}
+	}
+}
+
+class Toolbar extends EventCannon {
+	constructor() {
+		super();
+
+		this.id = "toolbar";
+		this.buttons = [];	
+
+		this.addButton("Room", () => {
+			this.fireEvent(ToolbarEvent.CREATE_ROOM, {});
+		});
 	}
 
 	render() {
@@ -78,8 +102,9 @@ class Toolbar {
 
 		this.buttons.forEach(button => {
 			var b = document.createElement("button");
-			console.log(button);
 			b.innerText = button.label;
+
+			b.addEventListener('click', button.callback);
 
 			c.appendChild(b);
 		});
@@ -180,6 +205,14 @@ class Editor {
 
 		this.currentComponent = null;
 		this.listener = null;
+		this.rendered = false;
+
+		var c = document.createElement("div");
+		c.id = "editor";
+		c.classList.add('editor');
+
+		this.element = c;
+
 	}
 
 	componentSelected(evt, component) {		
@@ -193,9 +226,15 @@ class Editor {
 	}
 
 	render() {
-		var c = document.createElement("div");
-		c.id = "editor";
-		c.classList.add('editor');
+		this.rendered = true;
+
+		this.draw();
+
+		return this.element;
+	}
+
+	draw() {
+		var c = this.element;
 
 		this.rooms.forEach(room => {
 			const roomComponent = room.render();
@@ -204,8 +243,14 @@ class Editor {
 
 			c.appendChild(roomComponent);
 		});
+	}
 
-		return c;
+	update() {
+		if (this.rendered) {
+			this.element.innerHTML = '';
+
+			this.draw();
+		}
 	}
 
 	createRoom() {
@@ -251,12 +296,22 @@ class MapEdApp {
 		this.editor.createRoom();
 
 		this.toolbar = new Toolbar();
+		this.toolbar.listener = (event, data) => this.handleToolbarEvent(event, data);
 
 		this.id = "main";
+
 	}
 
 	roomButtonClicked() {
 		var room = this.editor.createRoom();
+
+		this.editor.update();		
+	}
+
+	handleToolbarEvent(event, data) {
+		if (event == ToolbarEvent.CREATE_ROOM) {
+			this.roomButtonClicked();
+		}
 	}
 
 	handleEditorEvent(event, data) {
