@@ -9,6 +9,7 @@ const prefixer      = require('gulp-autoprefixer');
 const util          = require('gulp-util');
 const uglify        = require('gulp-uglify');
 const gulpif        = require('gulp-if');
+const webpack       = require('webpack-stream');
 
 var production = process.env.NODE_ENV == 'production' || false
 
@@ -44,10 +45,7 @@ gulp.task('serve', () => {
  */
  gulp.task('scripts', () => {
  	gulp.src(paths.src.javascript)
- 		.pipe(babel({
- 			presets: ["env"]
- 		}))
- 		.on('error', util.log)
+        .pipe(webpack({output: { filename: 'patd.js'} }))
  		.pipe(gulpif(production, uglify().on('error', util.log)))
  	    .pipe(gulp.dest(paths.dist.javascript))
 		.pipe(browserSync.reload({stream: true}));

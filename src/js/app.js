@@ -1,100 +1,13 @@
-const $$ = (query) => {
+window['$$'] = (query) => {
 	return document.querySelectorAll(query);
 }
 
-const $ = (query) => {
+window['$'] = (query) => {
 	return document.querySelector(query);
 }
 
-class Component {		
-	constructor() {
-		this.x = 100;
-		this.y = 100;
-
-		this.properties = [];
-
-		var id = (new Date()).getMilliseconds()+Math.floor(Math.random()*1000);
-
-		while(document.getElementById(id)) {
-		    id += 1;		
-		}
-
-		this.id = id;
-		this.component_name = this.constructor.name.toLowerCase();		
-		this.component_id = this.component_name + "_" + this.id;
-
-		var c = document.createElement('div');
-		c.id = this.component_id;
-		c.classList.add('room');				
-		c.classList.add('component');
-
-		c.style.left = this.x + "px";
-		c.style.top = this.y + "px";
-
-		this.properties["id"] = this.component_id;
-
-		this.element = c;
-	}	
-
-	update() {
-		var c = this.element;
-
-		c.style.left = this.x + "px";
-		c.style.top = this.y + "px";		
-	}
-
-	render() {		
-		return this.element;
-	}
-
-	toJSON() {
-		return this.properties;
-	}
-}
-
-class Room extends Component {	
-	constructor() {
-		super();
-
-		this.properties["name"] = "Unknown Room"
-		this.properties["description"] = "This room has no description."
-		this.properties["exits"] = []
-		this.properties["exits"]["north"] = "boo"
-
-		console.log(this.properties);
-	}
-
-	render() {
-		var c = super.render();
-
-		this.draw();
-
-		return c;
-	}
-
-	draw() {
-		var c = this.element;
-
-		let html = `
-			<div class="title">${this.properties.name}</div>
-			<div class="body">${this.properties.description}</div>
-		`;
-
-		c.innerHTML = html;				
-
-		return c;		
-	}
-
-	update() {
-		super.update();
-
-		const title = $(`#${this.component_id} .title`);
-		const body = $(`#${this.component_id} .body`);
-
-		if (title) { title.innerHTML = this.properties["name"] }
-		if (body) { body.innerHTML = this.properties["description"] }
-	}
-}
+const Component = require('./components/component')
+const Room = require('./components/room')
 
 const EditorEvent = {
 	COMPONENT_UNSELECTED: "unselect_component",
