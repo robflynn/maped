@@ -4,10 +4,8 @@ class Room extends Component {
     constructor() {
         super();
 
-        this.properties["name"] = "Unknown Room"
-        this.properties["description"] = "This room has no description."
-        this.properties["exits"] = []
-        this.properties["exits"]["north"] = "boo"
+        this.properties["name"] = { type: PropertyType.String, value: "Unknown Room" }
+        this.properties["description"] = { type: PropertyType.Text, value: "This room has no description. How would you describe it?" }
 
         console.log(this.properties);
     }
@@ -24,8 +22,8 @@ class Room extends Component {
         var c = this.element;
 
         let html = `
-            <div class="title">${this.properties.name}</div>
-            <div class="body">${this.properties.description}</div>
+            <div class="title">${this.properties.name.value}</div>
+            <div class="body">${this.properties.description.value}</div>
         `;
 
         c.innerHTML = html;             
@@ -36,11 +34,12 @@ class Room extends Component {
     update() {
         super.update();
 
+        // FIXME: Make setProperty() functions
         const title = $(`#${this.component_id} .title`);
         const body = $(`#${this.component_id} .body`);
 
-        if (title) { title.innerHTML = this.properties["name"] }
-        if (body) { body.innerHTML = this.properties["description"] }
+        if (title) { title.innerHTML = this.properties.name.value }
+        if (body) { body.innerHTML = this.properties.description.value }
     }
 }
 

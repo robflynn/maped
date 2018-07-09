@@ -6,10 +6,16 @@ window['$'] = (query) => {
 	return document.querySelector(query);
 }
 
+// FIXME: Make me a module
+window["PropertyType"] = {
+    String: "string",
+    Text: "text",
+}
+
 const Component = require('./components/component')
 const Room = require('./components/room')
 
-const PropertyPane = require('./ui/properties')
+const PropertyPane = require('./ui/propertypane')
 
 const EditorEvent = {
 	COMPONENT_UNSELECTED: "unselect_component",
@@ -258,6 +264,8 @@ class MapEdApp {
 		c.appendChild(this.editor.render());
 		c.appendChild(this.propertyPane.render());		
 		c.appendChild(this.toolbar.render());
+
+		this.editor.selectComponent(this.editor.rooms[0]);
 	}
 }
 

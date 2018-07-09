@@ -23,7 +23,7 @@ class Component {
         c.style.left = this.x + "px";
         c.style.top = this.y + "px";
 
-        this.properties["id"] = this.component_id;
+        this.properties["id"] = { type: PropertyType.String, value: this.component_id };
 
         this.element = c;
     }   
