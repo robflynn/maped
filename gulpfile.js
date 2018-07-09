@@ -47,6 +47,9 @@ gulp.task('serve', () => {
  	gulp.src(paths.src.javascript)
         .pipe(webpack({output: { filename: 'patd.js'} }))
  		.pipe(gulpif(production, uglify().on('error', util.log)))
+/*        .pipe(babel({
+            presets: ['env']
+        }))*/
  	    .pipe(gulp.dest(paths.dist.javascript))
 		.pipe(browserSync.reload({stream: true}));
  })

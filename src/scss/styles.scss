@@ -32,7 +32,7 @@ html, body {
             background-color: $paneBackgroundColor;
             user-select: none;
             position: relative;
-            overflow: auto;
+            overflow: hidden;
 
             .contentPane {
                 padding: $padding;                                
@@ -73,8 +73,11 @@ html, body {
                 th {
                     font-weight: normal;
                     padding: $tablePadding;                    
-                    background: darken($paneBackgroundColor, 10%);
-                    border: outset 1px;
+                    background: $toolbarBackgroundColor;
+                    color: #fff;
+                    border-top: $panelBorder;
+                    border-bottom: $panelBorder;
+                    user-select: none;                    
                 }
 
                 td {

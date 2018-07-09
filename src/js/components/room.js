@@ -4,8 +4,23 @@ class Room extends Component {
     constructor() {
         super();
 
-        this.properties["name"] = { type: PropertyType.String, value: "Unknown Room" }
-        this.properties["description"] = { type: PropertyType.Text, value: "This room has no description. How would you describe it?" }
+        this.properties.name = { type: PropertyType.String, value: "Unknown Room" }
+        this.properties.description = { type: PropertyType.Text, value: "This room has no description. How would you describe it?" }
+
+        this.properties.sep1 = { type: PropertyType.Separator, value: "Exits" }
+
+        this.properties.north = { type: PropertyType.Room, value: "" }
+        this.properties.northeast = { type: PropertyType.Room, value: "" }        
+        this.properties.east  = { type: PropertyType.Room, value: "" }        
+        this.properties.southeast  = { type: PropertyType.Room, value: "" }                
+        this.properties.south = { type: PropertyType.Room, value: "" }                
+        this.properties.southwest  = { type: PropertyType.Room, value: "" }
+        this.properties.west  = { type: PropertyType.Room, value: "" }        
+        this.properties.northwest  = { type: PropertyType.Room, value: "" }                
+
+        this.properties.sep2 = { type: PropertyType.Separator, value: "Escapes" }        
+        this.properties.sep3 = { type: PropertyType.Separator, value: "Items" }                
+        this.properties.sep4 = { type: PropertyType.Separator, value: "Monsters" }                        
 
         console.log(this.properties);
     }

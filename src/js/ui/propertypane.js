@@ -21,6 +21,22 @@ class PropertyPane {
             edit.innerHTML = property.value
         }
 
+        if (property.type == PropertyType.Room) {
+            var rooms = app.editor.rooms
+
+            if (rooms.length > 0) {
+                edit = document.createElement("select")    
+                
+                app.editor.rooms.forEach(room => {
+                    var option = document.createElement('option')
+                    option.value = room.properties.id.value
+                    option.innerHTML = room.properties.name.value
+
+                    edit.appendChild(option)
+                });
+            }
+        }
+
         if (property.type == PropertyType.String) {
             edit = document.createElement("input")    
             edit.type = "text"
@@ -44,26 +60,28 @@ class PropertyPane {
 
                 const edit = this.createPropertyEditor(this.currentComponent.properties[name])
 
-                edit.addEventListener('blur', evt => {
-                    let newValue
+                if (edit) {
+                    edit.addEventListener('blur', evt => {
+                        let newValue
 
-                    if (propertyStruct.type == PropertyType.Text) {
-                        newValue = evt.target.innerHTML
-                    } else {
-                        newValue = evt.target.value
-                    }
+                        if (propertyStruct.type == PropertyType.Text) {
+                            newValue = evt.target.innerHTML
+                        } else {
+                            newValue = evt.target.value
+                        }
 
-                    field.innerHTML = newValue
+                        field.innerHTML = newValue
 
-                    // FIXME: This should really be wrapped in some logic - WIP
-                    this.currentComponent.properties[name] = { type: propertyStruct.type, value: newValue }
-                    this.currentComponent.update()
-                })
+                        // FIXME: This should really be wrapped in some logic - WIP
+                        this.currentComponent.properties[name] = { type: propertyStruct.type, value: newValue }
+                        this.currentComponent.update()
+                    })
 
-                field.innerHTML = ""
-                field.appendChild(edit)
+                    field.innerHTML = ""
+                    field.appendChild(edit)
 
-                edit.focus()
+                    edit.focus()                    
+                }
             })
         })
     }
@@ -86,18 +104,11 @@ class PropertyPane {
 
     renderHTML() {
         const html = `
-            <header>
-                Properties
-            </header>
-
             <table id="propertiesTable">
                 <thead>
                     <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Value
+                        <th colspan="2">
+                            Properties
                         </th>
                     </tr>
                 </thead>
@@ -124,13 +135,13 @@ class PropertyPane {
 
         for (var key in properties) {
 
-            if (Array.isArray(properties[key])) {
+            if (properties[key].type == PropertyType.Separator) {
                 html += `
-                    <th colspan="2">
-                        ${key}
-                    </th>
-
-                    ${this.propertiesHTML(properties[key])}
+                    <tr>
+                        <th colspan="2">
+                            ${properties[key].value }
+                        </th>
+                    </tr>
                 `
             } else {
                 html += `

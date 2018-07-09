@@ -10,6 +10,8 @@ window['$'] = (query) => {
 window["PropertyType"] = {
     String: "string",
     Text: "text",
+    Separator: "separator",
+    Room: "room"
 }
 
 const Component = require('./components/component')
@@ -46,11 +48,11 @@ class Toolbar extends EventCannon {
 		this.id = "toolbar";
 		this.buttons = [];	
 
-		this.addButton("Room", () => {
+		this.addButton("+", () => {
 			this.fireEvent(ToolbarEvent.CREATE_ROOM, {});
 		});
 
-		this.addButton("Dump", () => {
+		this.addButton("Debug", () => {
 			this.fireEvent(ToolbarEvent.DUMP_SOURCE, {});
 		});
 	}
@@ -272,7 +274,7 @@ class MapEdApp {
 const init_app = () => {
 	console.log("app init called");
 
-	var app = new MapEdApp("#app");
+	window["app"] = new MapEdApp("#app");
 	app.render();
 }
 
